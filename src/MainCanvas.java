@@ -60,11 +60,11 @@ public class MainCanvas extends JPanel implements Runnable{
 			imgtmp = ImageIO.read(new File("../src/fundo.jpg"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			//e1.printStackTrace();
+			e1.printStackTrace();
 		}
 		
 		imageBuffer = new BufferedImage(640,480, BufferedImage.TYPE_4BYTE_ABGR);
-		//iamgeBuffer.getGraphics().drawImage(imgtmp, 0, 0, null);
+		imageBuffer.getGraphics().drawImage(imgtmp, 0, 0, null);
 		
 		
 		bufferDeVideo = ((DataBufferByte)imageBuffer.getRaster().getDataBuffer()).getData();
@@ -162,10 +162,12 @@ public class MainCanvas extends JPanel implements Runnable{
 	@Override
 	public void paint(Graphics g) {
 		
-		desenhaLinhaHorizontal(10,100,200);
-		desenhaLinhaHorizontal(10,101,200);
+		//desenhaLinhaHorizontal(10,100,200);
+		//desenhaLinhaHorizontal(10,101,200);
 		
-		desenhaLinhaVertical(300,200,200);
+		//desenhaLinhaVertical(300,200,200);
+
+		desenhaLinhaBreseham(80, 80, 220, 220);
 		
 		// TODO Auto-generated method stub
 		//super.paint(g);
@@ -228,6 +230,48 @@ public class MainCanvas extends JPanel implements Runnable{
 			bufferDeVideo[pospix+2] = (byte)100;
 			bufferDeVideo[pospix+3] = (byte)0;
 			pospix+=(W*4);
+		}
+	}
+
+	public void desenhaLinhaBreseham(int x1, int y1, int x2, int y2) {
+		/* NOSSA IMPLEMENTAÇÃO */
+		int slope;
+		int dx, dy, incE, incNE, d, x, y;
+
+		if(x1 > x2) {
+			// inverte coordenadas se x1 > x2
+			desenhaLinhaBreseham(x2, y2, x1, y1);
+			return;
+		}
+		dx = x2 - x1;
+		dy = y2 - y1;
+
+		if(dy < 0) {
+			slope = -1;
+			dy = -dy;
+		} else {
+			slope = 1;
+		}
+
+		// Bresenham's constant
+		incE = 2 * dy;
+		incNE = 2 * dy - 2 * dx;
+		d = 2 * dy - dx;
+		y = y1;
+
+		for(x = x1; x <= x2; x++) {
+			//int pospix = y*(W*4)+x*4;
+			int pospix = y*(W*4)+x*4;
+			bufferDeVideo[pospix] = (byte)255;
+			bufferDeVideo[pospix+1] = (byte)0;
+			bufferDeVideo[pospix+2] = (byte)100;
+			bufferDeVideo[pospix+3] = (byte)0;
+			if(d <= 0){
+				d += incE;
+			} else {
+				d += incNE;
+				y += slope;
+			}
 		}
 	}
 	
