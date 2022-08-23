@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+/Users/ivansantos/Library/CloudStorage/OneDrive-Pessoal/6.Estudos/_UNIVALI/7_Periodo - Computacao grafica/Atividades/1.2/CG_1/.metadata/.plugins/org.eclipse.jdt.core
-1865797976.index
-1656159888.index
-790514281.index
